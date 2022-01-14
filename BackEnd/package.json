@@ -1,0 +1,19 @@
+{
+  "name": "eshop",
+  "version": "1.0.0",
+  "description": "Backend of eshop with Nodejs-Express(server)-MongoDB Atlas",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
