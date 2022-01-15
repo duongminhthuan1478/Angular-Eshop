@@ -1,63 +1,28 @@
-// Express: lib for server, support HTTP, HTTPs and middleware to create a API useful and robust
-const express = require('express');
-const morgan = require('morgan');
-// Using mongoose to connect db
-const mongoose = require('mongoose')
+const express = require('express'); // Express: lib for server, support HTTP, HTTPs and middleware to create a API useful and robust
 const app = express();
+const morgan = require('morgan');
+const mongoose = require('mongoose'); // Using mongoose to connect db
+const productsRouter = require('./routers/product');
+const cors = require('cors')
+require('dotenv/config'); // Using lib to read all enviroment variables in .env file
 
-// Using lib to read all enviroment variables in .env file
-require('dotenv/config');
+app.use(cors()); //Allow others port to have ability call HTTP from this Node.js server. Example 4200 can call to 3000(this server BE)
+app.options('*', cors()); // option to allow HTTP: Post, Put, Delete,.. (*) for all. Search HTTP Options for more Allow type.
 
-const api = process.env.API_URL;
+const api = process.env.API_URL; //"/api/v1"
 
-// Apply to parse json data which comes from the frontend to the backend
-//express.json():  Returns middleware that only parses json 
-app.use(express.json());
+app.use(express.json()); // A middleware, Apply to parse json data which comes from the frontend to the backend
 
 // LOG lib: Apply HTTP method in console by tiny, search lib on npm to get detail
 // Example a record when using PostMan or Inspector: POST /api/v1/product/create 200 47 - 8.582 ms
-app.use(morgan('tiny'))
-
+app.use(morgan('tiny')) 
 
 app.get(`${api}`, (req, res) => {
     res.send("Wellcome to eshop API, Let's try navigate to /product for first API");
 })
 
-app.get(`${api}/product`, (req, res) => {
-    const product = {
-        id: 1,
-        name: "Hair dresser",
-        image: "some url"
-    }
-    res.send(product);
-})
-
-//----------------- Schema -----------------//
-const productSchema = mongoose.Schema({
-    name: String,
-    image: String,
-    countInStock: Number
-});
-
-//----------------- Model  -----------------//
-const Product = mongoose.model("Product", productSchema);
-
-app.post(`${api}/product/create`, (req, res) => {
-    const product = new Product({
-        name: req.body.name,
-        image: req.body.image,
-        countInStock: req.body.countInStock
-    });
-    product.save().then(createdStatus => {
-        console.log("createdStatus", createdStatus)
-        res.status(201).json(createdStatus)
-    }).catch((err) => {
-        res.status(500).json({
-            error: err,
-            success: false
-        })
-    })
-})
+// Routers
+app.use(`${api}/product`, productsRouter);
 
 /**
  * Connection  from mongodb atlas cluster
