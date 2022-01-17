@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose'); // Using mongoose to connect db
 const productsRouter = require('./routers/product');
+const categoriesRouter = require('./routers/category');
 const cors = require('cors')
 require('dotenv/config'); // Using lib to read all enviroment variables in .env file
 
@@ -10,6 +11,7 @@ app.use(cors()); //Allow others port to have ability call HTTP from this Node.js
 app.options('*', cors()); // option to allow HTTP: Post, Put, Delete,.. (*) for all. Search HTTP Options for more Allow type.
 
 const api = process.env.API_URL; //"/api/v1"
+// const api = "/api/v1"; //"/api/v1"
 
 app.use(express.json()); // A middleware, Apply to parse json data which comes from the frontend to the backend
 
@@ -22,7 +24,8 @@ app.get(`${api}`, (req, res) => {
 })
 
 // Routers
-app.use(`${api}/product`, productsRouter);
+app.use(`${api}/products`, productsRouter);
+app.use(`${api}/categories`, categoriesRouter);
 
 /**
  * Connection  from mongodb atlas cluster
