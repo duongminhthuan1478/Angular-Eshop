@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({success: false, message: "Data not found!"});
 })
 
-router.get('getCategoryById/:id', (req, res) => {
+router.get('/getCategoryById/:id', (req, res) => {
     const category = Category.findById(req.params.id)
     if(!category) {
         res.status(500).json({success: false, message: 'The category with id was not found!!'});
@@ -30,7 +30,7 @@ router.post('/create', async (req, res) => {
     
     // shorted code
     category = await category.save(); //Return a object if success. Otherwise return null
-    if(!category) return res.status(500).send('The category cannot be created!');
+    if(!category) return res.status(500).send({success: false, message: 'The category cannot be created!'});
     res.send({success: true, message: "Category was created successfully"}); // send model
 });
 
@@ -43,7 +43,7 @@ router.put('/update/:id', async (req, res) => {
 
     //{new: true}: option to return new category after update instead of old data
     const category = await Category.findByIdAndUpdate(req.params.id, newCateGory, {new: true}); //Return a object if success. Otherwise return null
-    if(!category) return res.status(500).send('The category cannot be updated!');
+    if(!category) return res.status(500).send({success: false, message: 'The category cannot be updated!'});
     res.send({success: true, message: "Category was saved successfully"}); // send model
 });
 

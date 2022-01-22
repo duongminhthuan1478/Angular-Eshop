@@ -2,10 +2,17 @@ const express = require('express'); // Express: lib for server, support HTTP, HT
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose'); // Using mongoose to connect db
-const productsRouter = require('./routers/product');
-const categoriesRouter = require('./routers/category');
 const cors = require('cors')
 require('dotenv/config'); // Using lib to read all enviroment variables in .env file
+
+const authJwt = require('./helpers/jwt-helper');
+const errorHandler = require('./helpers/error-handler-helper');
+
+const productsRouter = require('./routers/product');
+const categoriesRouter = require('./routers/category');
+const usersRouter = require('./routers/user');
+
+
 
 app.use(cors()); //Allow others port to have ability call HTTP from this Node.js server. Example 4200 can call to 3000(this server BE)
 app.options('*', cors()); // option to allow HTTP: Post, Put, Delete,.. (*) for all. Search HTTP Options for more Allow type.
@@ -13,11 +20,11 @@ app.options('*', cors()); // option to allow HTTP: Post, Put, Delete,.. (*) for 
 const api = process.env.API_URL; //"/api/v1"
 // const api = "/api/v1"; //"/api/v1"
 
+// Middleware
 app.use(express.json()); // A middleware, Apply to parse json data which comes from the frontend to the backend
-
-// LOG lib: Apply HTTP method in console by tiny, search lib on npm to get detail
-// Example a record when using PostMan or Inspector: POST /api/v1/product/create 200 47 - 8.582 ms
-app.use(morgan('tiny')) 
+app.use(morgan('tiny'))// LOG lib: Apply HTTP method in console by tiny, search lib on npm to get detail, Example a record when using PostMan or Inspector: POST /api/v1/product/create 200 47 - 8.582 ms
+app.use(authJwt()); // Apply check token for all API request
+app.use(errorHandler);
 
 app.get(`${api}`, (req, res) => {
     res.send("Wellcome to eshop API, Let's try navigate to /product for first API");
@@ -26,6 +33,7 @@ app.get(`${api}`, (req, res) => {
 // Routers
 app.use(`${api}/products`, productsRouter);
 app.use(`${api}/categories`, categoriesRouter);
+app.use(`${api}/users`, usersRouter);
 
 /**
  * Connection  from mongodb atlas cluster

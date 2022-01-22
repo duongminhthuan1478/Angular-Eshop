@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({success: false, message: "Data not found!"});
 });
 
-router.get('getProductById/:id', async (req, res) => {
+router.get('/getProductById/:id', async (req, res) => {
     // populate('field') to display all detail of Category record instead of only ObjectId like category model
     const product = await Product.findById(req.params.id).populate('category');
     if(!product) {
@@ -65,7 +65,7 @@ router.get('/list-product-featured/:count', async (req, res) => {
 
 router.post('/create', async(req, res) => {
     const category = await Category.findById(req.body.category);
-    if(!category) return res.status(400).send("Invalid Category !!")
+    if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"})
 
     let product = new Product({
         name: req.body.name,
@@ -82,7 +82,7 @@ router.post('/create', async(req, res) => {
     });
 
     product = await product.save();
-    if(!product)return res.status(500).send('The product cannot be created!');
+    if(!product)return res.status(500).send({success: false, message: 'The product cannot be created!'});
     res.send({success: true, message: "Product was created successfully"}); // send model
 });
 
@@ -91,11 +91,11 @@ router.put('/update/:id', async (req, res) => {
     // If we pass update/1 so the application will throw exception and hang on others request
     // So we need to handle this to intercep exception throw back when handle short code with await async
     if(!mongoose.isValidObjectId(req.params.id)) {
-        return res.status(400).send("Invalid Product Id !!");
+        return res.status(400).send({success: false, message: "Invalid Product Id !!"});
     }
 
     const category = await Category.findById(req.body.category);
-    if(!category) return res.status(400).send("Invalid Category !!");
+    if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"});
 
     const newProduct = {
         name: req.body.name,
@@ -114,7 +114,7 @@ router.put('/update/:id', async (req, res) => {
     // Short code
     //{new: true}: option to return new product after update instead of old data
     const product = await Product.findByIdAndUpdate(req.params.id, newProduct, {new: true}); //Return a object if success. Otherwise return null
-    if(!product) return res.status(500).send('The product cannot be updated!');
+    if(!product) return res.status(500).send({success: false, message: 'The product cannot be updated!'});
     res.send({success: true, message: "Product was saved successfully"}); // send model
 });
 
