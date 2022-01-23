@@ -1,0 +1,23 @@
+1- Create - POST - http://localhost:3000/api/v1/orders/create
+{
+    "orderItems": [
+        {"quantity": 2, "product": "5f15d8852a025143f9593a7c"},
+        {"quantity": 3, "product": "5f15d9b3e520d44421ed8e9d"}
+    ],
+    "shippingAddress1": "Da Nang, Deo Biet",
+    "shippingAddress2": "13",
+    "city": "Da Nang",
+    "zip": "550000",
+    "country": "Viet Nam",
+    "phone": "09123456444",
+    "user": "61eb9114f28938406bbd7ca4"
+}
+
+
+1- Update-status - PUT - http://localhost:3000/api/v1/orders/update-status/61ebbb3f07cb4be4d2f84dfb
+{
+    "status": "Shipped"
+}
+
+
+

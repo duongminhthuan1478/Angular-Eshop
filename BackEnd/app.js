@@ -11,6 +11,7 @@ const errorHandler = require('./helpers/error-handler-helper');
 const productsRouter = require('./routers/product');
 const categoriesRouter = require('./routers/category');
 const usersRouter = require('./routers/user');
+const ordersRouter = require('./routers/order');
 
 
 
@@ -34,6 +35,7 @@ app.get(`${api}`, (req, res) => {
 app.use(`${api}/products`, productsRouter);
 app.use(`${api}/categories`, categoriesRouter);
 app.use(`${api}/users`, usersRouter);
+app.use(`${api}/orders`, ordersRouter);
 
 /**
  * Connection  from mongodb atlas cluster

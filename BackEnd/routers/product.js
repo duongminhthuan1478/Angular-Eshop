@@ -21,6 +21,10 @@ router.get('/', async (req, res) => {
 
 router.get('/getProductById/:id', async (req, res) => {
     // populate('field') to display all detail of Category record instead of only ObjectId like category model
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        return res.status(400).send({success: false, message: "Invalid Product Id !!"});
+    }
+
     const product = await Product.findById(req.params.id).populate('category');
     if(!product) {
         res.status(500).json({success: false, message: 'The product with id was not found!!'});

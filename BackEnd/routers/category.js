@@ -11,14 +11,13 @@ router.get('/', async (req, res) => {
     res.status(500).json({success: false, message: "Data not found!"});
 })
 
-router.get('/getCategoryById/:id', (req, res) => {
-    const category = Category.findById(req.params.id)
+router.get('/getCategoryById/:id', async (req, res) => {
+    const category = await Category.findById(req.params.id)
     if(!category) {
         res.status(500).json({success: false, message: 'The category with id was not found!!'});
         return;
     }
     res.status(200).send({success: true, data: category});
-    
 });
 
 router.post('/create', async (req, res) => {
