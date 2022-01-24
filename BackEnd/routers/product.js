@@ -1,8 +1,27 @@
+const { Category } = require('../models/category');
+const { Product } = require('../models/product');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const { Category } = require('../models/category');
-const { Product } = require('../models/product');
+const Constant = require('../constants/constant')
+const multer = require('multer');
+
+// Refer https://github.com/expressjs/multer#diskstorage 
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        //Callback to determine the destination path to save images
+        const isValidFile = Constant.FILE_TYPES[file.mimetype];
+        const error = isValidFile !== null ? null : new Error("File type not accept. Please input file *.png, *.jpeg, *.jpg")
+        callback(error, 'images/uploads') 
+    },
+    filename: function (req, file, callback) {
+      const filename = file.originalname.split(' ').join('-').split('.')[0];
+      const extension = Constant.FILE_TYPES[file.mimetype];
+      callback(null, `${filename}-${Date.now()}.${extension}`);
+    }
+});
+
+const uploadOptions = multer({ storage: storage })
 
 router.get('/', async (req, res) => {
     let filter = {};
@@ -67,15 +86,21 @@ router.get('/list-product-featured/:count', async (req, res) => {
     res.status(500).send({success: false, message: "Product not found!"});
 });
 
-router.post('/create', async(req, res) => {
+/** uploadOptions.single: upload only one image */
+router.post('/create', uploadOptions.single('image'), async(req, res) => {
     const category = await Category.findById(req.body.category);
+    const file = req.file
     if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"})
+    if(!file) return res.status(400).send({success: false, message: "No image exist, please at at least an image for Product"});
+
+    const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+    const fileName = req.file.filename;
 
     let product = new Product({
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: basePath + fileName,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,
@@ -90,22 +115,33 @@ router.post('/create', async(req, res) => {
     res.send({success: true, message: "Product was created successfully"}); // send model
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', uploadOptions.single('image'), async (req, res) => {
     // Validation ID: Ex: moongose id type is Object Id: 5f15d467f3a046427a1c26e1
     // If we pass update/1 so the application will throw exception and hang on others request
     // So we need to handle this to intercep exception throw back when handle short code with await async
     if(!mongoose.isValidObjectId(req.params.id)) {
         return res.status(400).send({success: false, message: "Invalid Product Id !!"});
     }
-
+    
     const category = await Category.findById(req.body.category);
     if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"});
+
+    const product = await Product.findById(req.body.product);
+    if(!product)  return res.status(400).send({success: false, message: "Invalid Product !!"});
+
+    const file = req.file;
+    let imagePath = product.image;
+    if(file) {
+        const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+        const fileName = req.file.filename;
+        imagePath = basePath + fileName;
+    }
 
     const newProduct = {
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: imagePath,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,
@@ -117,10 +153,33 @@ router.put('/update/:id', async (req, res) => {
 
     // Short code
     //{new: true}: option to return new product after update instead of old data
-    const product = await Product.findByIdAndUpdate(req.params.id, newProduct, {new: true}); //Return a object if success. Otherwise return null
-    if(!product) return res.status(500).send({success: false, message: 'The product cannot be updated!'});
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, newProduct, {new: true}); //Return a object if success. Otherwise return null
+    if(!updatedProduct) return res.status(500).send({success: false, message: 'The product cannot be updated!'});
     res.send({success: true, message: "Product was saved successfully"}); // send model
 });
+
+/** uploadOptions.array('images', 10): Upload galary images, limit 10 */
+router.put('/update-galary-images/:id', uploadOptions.array('images', 10), async(req, res) => {
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        return res.status(400).send({success: false, message: "Invalid Product Id !!"});
+    }
+
+    const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+    const files = req.files;
+    const imagesPath = [];
+    if(!files)  return res.status(400).send({success: false, message: "Please upload images !!"});;
+    
+    files.map(file => {
+        imagesPath.push(basePath + file.filename);
+    })
+
+    const imagesUploaded = { images: imagesPath }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, imagesUploaded, {new: true}); 
+    if(!product) return res.status(500).send({success: false, message: 'The product images cannot be updated!'});
+    res.send({success: true, message: "Product Images was saved successfully", image: product});
+});
+
 
 router.delete('/delete/:id', (req, res) => {
     Product.findByIdAndRemove(req.params.id).then(product => {

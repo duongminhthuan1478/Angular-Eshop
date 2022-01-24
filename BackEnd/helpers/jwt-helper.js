@@ -16,6 +16,7 @@ function authJwt() {
             {url: /\/api\/v1\/categories(.*)/, methods: ['GET', 'OPTIONS']},
             {url: /\/api\/v1\/users\/login(.*)/},
             {url: /\/api\/v1\/users\/register(.*)/},
+            {url: /\/images\/uploads\/(.*)/}, // alow user read image in images/uploads
         ]
     })
 }

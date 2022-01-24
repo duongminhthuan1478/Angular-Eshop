@@ -4,6 +4,7 @@ const { OrderItem } = require('../models/order-item')
 const mongoose = require('mongoose');
 const router = express.Router();
 
+
 router.get('/', async (req, res) => {
     //-1 desc. Check document sort method
     const orders = await Order.find().populate('user', 'name country phone').sort({'dateOrdered': -1}) 

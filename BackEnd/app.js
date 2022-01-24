@@ -26,6 +26,7 @@ app.use(express.json()); // A middleware, Apply to parse json data which comes f
 app.use(morgan('tiny'))// LOG lib: Apply HTTP method in console by tiny, search lib on npm to get detail, Example a record when using PostMan or Inspector: POST /api/v1/product/create 200 47 - 8.582 ms
 app.use(authJwt()); // Apply check token for all API request
 app.use(errorHandler);
+app.use('/images/uploads', express.static(__dirname + '/images/uploads')); //Make images folder status so we can access this in http://localhost:3000/images/uploads/thuan_1-1642931645957.jpeg
 
 app.get(`${api}`, (req, res) => {
     res.send("Wellcome to eshop API, Let's try navigate to /product for first API");
