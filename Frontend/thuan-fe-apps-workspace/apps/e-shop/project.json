@@ -1,0 +1,91 @@
+{
+  "projectType": "application",
+  "root": "apps/e-shop",
+  "sourceRoot": "apps/e-shop/src",
+  "prefix": "thuan-fe-apps-workspace",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/e-shop",
+        "index": "apps/e-shop/src/index.html",
+        "main": "apps/e-shop/src/main.ts",
+        "polyfills": "apps/e-shop/src/polyfills.ts",
+        "tsConfig": "apps/e-shop/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/e-shop/src/favicon.ico", "apps/e-shop/src/assets"],
+        "styles": ["apps/e-shop/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/e-shop/src/environments/environment.ts",
+              "with": "apps/e-shop/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "e-shop:build:production"
+        },
+        "development": {
+          "browserTarget": "e-shop:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "e-shop:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/e-shop/src/**/*.ts",
+          "apps/e-shop/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/e-shop"],
+      "options": {
+        "jestConfig": "apps/e-shop/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
