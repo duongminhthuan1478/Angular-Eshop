@@ -12,11 +12,17 @@ function authJwt() {
             // {url: 'api/v1/products', methods: ['GET', 'OPTIONS']},
 
             // Using Regex: .* match anything 
-            {url: /\/api\/v1\/products(.*)/, methods: ['GET', 'OPTIONS']},
-            {url: /\/api\/v1\/categories(.*)/, methods: ['GET', 'OPTIONS']},
-            {url: /\/api\/v1\/users\/login(.*)/},
-            {url: /\/api\/v1\/users\/register(.*)/},
-            {url: /\/images\/uploads\/(.*)/}, // alow user read image in images/uploads
+            // {url: /\/images\/uploads\/(.*)/}, // alow user read image in images/uploads
+            // {url: /\/api\/v1\/products(.*)/, methods: ['GET', 'OPTIONS']},
+            // {url: /\/api\/v1\/categories(.*)/, methods: ['GET', 'OPTIONS']},
+            // {url: /\/api\/v1\/orders(.*)/, methods: ['GET', 'OPTIONS', 'POST']},
+            // // 'api/v1/users/login'
+            // {url: /\/api\/v1\/users\/login(.*)/},
+            // {url: /\/api\/v1\/users\/register(.*)/},
+            
+            // Alows all api access without authen
+            { url: /(*.)/} 
+         
         ]
     })
 }
