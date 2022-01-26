@@ -9,6 +9,9 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
+// Libs module
+import { UiModule } from '@thuan-fe-apps-workspace/ui'; /** using short imports declare at paths in tsconfig.base.json file */
+
 const route: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'products', component: ProductListComponent },
@@ -22,7 +25,11 @@ const route: Routes = [
     HeaderComponent,
     FooterComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(route)],
+  imports: [
+    BrowserModule,
+    UiModule, 
+    RouterModule.forRoot(route)
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
