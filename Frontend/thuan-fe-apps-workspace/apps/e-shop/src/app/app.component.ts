@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'thuan-fe-apps-workspace-root',
+  selector: 'eshop-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

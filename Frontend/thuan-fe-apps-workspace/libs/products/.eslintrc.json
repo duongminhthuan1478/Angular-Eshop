@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "eshop",
+            "prefix": "product",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "eshop",
+            "prefix": "product",
             "style": "kebab-case"
           }
         ]
