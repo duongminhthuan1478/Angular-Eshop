@@ -19,6 +19,10 @@
 - JWT (JSON Web Tokens), express jwt to compare and check token role, to recognize token pass to server was generated from my applycation
 - Hashing password
 
-![Eshop-diagram](https://github.com/duongminhthuan1478/Angular-Eshop/blob/master/Seeding%20DB/Eshop-diagram.png)
+![Eshop-diagram](https://github.com/duongminhthuan1478/Angular-Eshop/blob/master/BackEnd/Seeding%20DB/Eshop-diagram.png)
+
+
+# Eshop with Nx path, Some application and shared libs
+![Eshop with Nx path](https://github.com/duongminhthuan1478/Angular-Eshop/blob/master/Frontend/Readme-Nx/NX%20RealWord%20E-shop.png)
 
 
