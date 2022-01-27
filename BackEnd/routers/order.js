@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     //-1 desc. Check document sort method
     const orders = await Order.find().populate('user', 'name country phone').sort({'dateOrdered': -1}) 
     if(orders) {
-        res.status(200).send({sucess: true, data: orders});
+        res.status(200).send({success: true, data: orders});
         return;
     }
     res.status(500).json({success: false, message: "Data not found!"});
@@ -53,7 +53,7 @@ router.get('/user-orders/:userId', async (req, res) => {
         {path: 'orderItems', populate: {path: 'product', populate: 'category'}
     }).sort({'dateOrdered': -1}); 
     if(userOrders) {
-        res.status(200).send({sucess: true, data: userOrders});
+        res.status(200).send({success: true, data: userOrders});
         return;
     }
     res.status(500).json({success: false, message: "Contact to admin for this api"});

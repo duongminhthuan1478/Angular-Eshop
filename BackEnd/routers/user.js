@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 router.get('/', async (req, res) => {
     const users = await User.find().select("-passwordHash");
     if(users) {
-        res.status(200).send({sucess: true, size: users.length, data: users});
+        res.status(200).send({success: true, size: users.length, data: users});
         return;
     }
     res.status(500).json({success: false, message: "Data not found!"});

@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const categories = await Category.find()
     if(categories) {
-        res.status(200).send({sucess: true, data: categories});
+        res.status(200).send({success: true, data: categories});
         return;
     }
     res.status(500).json({success: false, message: "Data not found!"});
