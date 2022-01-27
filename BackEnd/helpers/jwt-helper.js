@@ -21,7 +21,7 @@ function authJwt() {
             // {url: /\/api\/v1\/users\/register(.*)/},
             
             // Alows all api access without authen
-            { url: /(*.)/} 
+            { url: /(.*)/ } 
          
         ]
     })
