@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "thuanFeAppsWorkspace",
+            "prefix": "admin",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "thuan-fe-apps-workspace",
+            "prefix": "admin",
             "style": "kebab-case"
           }
         ]
