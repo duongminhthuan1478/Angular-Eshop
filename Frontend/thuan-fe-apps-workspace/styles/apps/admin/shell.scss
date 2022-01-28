@@ -17,9 +17,10 @@
         height: 100%;
         top: 0;
         .logo {
-            padding:  20%;
+            padding: 10%;
             width: 100%;
             img {
+                border-radius: 10px;
                 max-width: 100%;
             }
         }
@@ -52,5 +53,8 @@
             }
             
         }
+    }
+    &-page {
+        padding: 15px;
     }
 }

@@ -1,0 +1,48 @@
+<div class="admin-page">
+  <p-card header="Categories" subheader="List of all categories">
+    <div class="grid">
+      <div class="col-12">
+        <p-toolbar>
+          <div class="p-toolbar-group-left">
+            <p-button
+              label="New"
+              styleClass="p-button-success"
+              icon="pi pi-plus"
+              routerLink="form"
+            ></p-button>
+          </div>
+        </p-toolbar>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-12">
+        <p-table [value]="categories" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th>Icon</th>
+              <th>Color</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category>
+            <tr>
+              <td>{{ category.name }}</td>
+              <td><i style="font-size: 2rem;" [ngClass]="'pi pi-' + category.icon"></i></td>
+              <td>
+                <i class="pi pi-circle-fill" style="font-size: 2rem" [ngStyle]="{ color: category.color }"></i>
+              </td>
+              <td>
+                <p-button icon="pi pi-pencil" styleClass="p-button-info mr-3" (click)="handleUpdateCategory(category.id)"></p-button>
+                <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="handleDeleteCategory(category.id)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<p-confirmDialog [style]="{width: '30vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>>
