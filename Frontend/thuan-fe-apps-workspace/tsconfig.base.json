@@ -18,7 +18,8 @@
       "@thuan-fe-apps-workspace/orders": ["libs/orders/src/index.ts"],
       "@thuan-fe-apps-workspace/products": ["libs/products/src/index.ts"],
       "@thuan-fe-apps-workspace/ui": ["libs/ui/src/index.ts"],
-      "@thuan-fe-apps-workspace/users": ["libs/users/src/index.ts"]
+      "@thuan-fe-apps-workspace/users": ["libs/users/src/index.ts"],
+      "@thuan-env/*": ["environments/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
