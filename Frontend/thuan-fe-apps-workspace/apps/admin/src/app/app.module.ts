@@ -9,8 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ShellComponent } from './shared/shell/shell.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
-import { CategoryComponent } from './categories/category/category.component';
+import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
+import { CategoryComponent } from './pages/categories/category/category.component';
 
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
