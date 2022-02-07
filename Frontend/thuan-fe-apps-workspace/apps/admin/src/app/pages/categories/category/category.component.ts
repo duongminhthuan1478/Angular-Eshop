@@ -17,8 +17,8 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     public messageService: MessageService,
+    public location: Location,
     private fb: FormBuilder,
-    private location: Location,
     private _categories: CategoriesService,
     private route: ActivatedRoute
   ) {
@@ -28,7 +28,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.params?.id;
     this.isEditMode = !!this.categoryId;
-    this.handleEditMode();
+    this.patchDataEditMode();
   }
 
   get categoryControls() {
@@ -61,7 +61,7 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  private handleEditMode() {
+  private patchDataEditMode() {
     if(this.isEditMode) {
       this._categories.getCategoryById(this.categoryId).subscribe(category => {
         if(category?.data) {
