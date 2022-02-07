@@ -93,7 +93,7 @@ router.post('/create', uploadOptions.single('image'), async(req, res) => {
     if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"})
     if(!file) return res.status(400).send({success: false, message: "No image exist, please at at least an image for Product"});
 
-    const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+    const basePath = `${req.protocol}://${req.get('host')}/images/uploads/`
     const fileName = req.file.filename;
 
     let product = new Product({
@@ -126,13 +126,13 @@ router.put('/update/:id', uploadOptions.single('image'), async (req, res) => {
     const category = await Category.findById(req.body.category);
     if(!category) return res.status(400).send({success: false, message: "Invalid Category !!"});
 
-    const product = await Product.findById(req.body.product);
+    const product = await Product.findById(req.params.id);
     if(!product)  return res.status(400).send({success: false, message: "Invalid Product !!"});
 
     const file = req.file;
     let imagePath = product.image;
     if(file) {
-        const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+        const basePath = `${req.protocol}://${req.get('host')}/images/uploads/`
         const fileName = req.file.filename;
         imagePath = basePath + fileName;
     }
