@@ -13,6 +13,10 @@ import { CategoriesListComponent } from './pages/categories/categories-list/cate
 import { CategoryComponent } from './pages/categories/category/category.component';
 import { ProductsListComponent } from './pages/products/products-list/products-list.component';
 import { ProductComponent } from './pages/products/product/product.component';
+import { UsersListComponent } from './pages/users/users-list/users-list.component';
+import { UserComponent } from './pages/users/user/user.component';
+import { OrdersListComponent } from './pages/orders/orders-list/orders-list.component';
+import { OrderDetailComponent } from './pages/orders/order-detail/order-detail.component';
 
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -30,11 +34,10 @@ import { EditorModule } from 'primeng/editor';
 import { TagModule } from 'primeng/tag';
 import { InputMaskModule } from 'primeng/inputmask';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { FieldsetModule } from 'primeng/fieldset';
 
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { UsersListComponent } from './pages/users/users-list/users-list.component';
-import { UserComponent } from './pages/users/user/user.component';
 
 const UX_MODULE = [
   CardModule,
@@ -52,7 +55,8 @@ const UX_MODULE = [
   EditorModule,
   TagModule,
   InputMaskModule,
-  SelectButtonModule
+  SelectButtonModule,
+  FieldsetModule
 ];
 
 export const routes: Routes = [
@@ -70,6 +74,8 @@ export const routes: Routes = [
       { path: 'users', component: UsersListComponent },
       { path: 'users/form', component: UserComponent },
       { path: 'users/form/:id', component: UserComponent },
+      { path: 'orders', component: OrdersListComponent },
+      { path: 'orders/:id', component: OrderDetailComponent },
     ],
   },
 ];
@@ -86,6 +92,8 @@ export const routes: Routes = [
     ProductComponent,
     UsersListComponent,
     UserComponent,
+    OrdersListComponent,
+    OrderDetailComponent,
   ],
   imports: [
     BrowserModule,

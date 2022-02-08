@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     //-1 desc. Check document sort method
     const orders = await Order.find().populate('user', 'name country phone').sort({'dateOrdered': -1}) 
     if(orders) {
-        res.status(200).send({success: true, data: orders});
+        res.status(200).send({success: true, size: orders.length, data: orders});
         return;
     }
     res.status(500).json({success: false, message: "Data not found!"});
@@ -23,7 +23,7 @@ router.get('/getOrderById/:id', async (req, res) => {
     const order = await Order.findById(req.params.id)
                 .populate('user', 'name country phone')
                 .populate(  //Populate each product with name & description in array orderItems, and populate category in product
-                    {path: 'orderItems', populate: {path: 'product', select: 'name description', populate: 'category'}
+                    {path: 'orderItems', populate: {path: 'product', populate: 'category'}
                 });
     if(!order) {
         res.status(500).json({success: false, message: 'The order with id was not found!!'});
@@ -93,7 +93,7 @@ router.post('/create', async (req, res) => {
         const orderItem = await OrderItem.findById(orderItemId).populate('product', 'price');
         const productPrice = orderItem.quantity * orderItem.product.price;
         totalPrice = totalPrice + productPrice;
-        return productPrice;
+        return totalPrice;
     }));
 
     // Because I using async-await so. All handle will be synchoronous. We got orderItemsIdsResolved, totalPrice after handle above
@@ -123,8 +123,8 @@ router.put('/update-status/:id', async (req, res) => {
 
     //{new: true}: option to return new order after update instead of old data
     const order = await Order.findByIdAndUpdate(req.params.id, payload, {new: true});
-    if(!order) return res.status(500).send({success: false, message: 'The order cannot be updated!'});
-    res.send({success: true, message: "The Order was saved successfully"}); // send model
+    if(!order) return res.status(500).send({success: false, message: 'The order status cannot be updated!'});
+    res.send({success: true, message: "The order status was saved successfully"}); // send model
 });
 
 router.delete('/delete/:id', async (req, res) => {

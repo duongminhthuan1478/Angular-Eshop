@@ -1,0 +1,36 @@
+<div class="admin-page">
+    <p-card header="Orders" subheader="List of all orders">
+      <div class="grid">
+        <div class="col-12">
+          <p-table [value]="orders" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="name">User <p-sortIcon field="user"></p-sortIcon></th>
+                <th  pSortableColumn="totalPrice">Total Price <p-sortIcon field="totalPrice"></p-sortIcon> </th>
+                <th  pSortableColumn="dateOrdered">Date Ordered <p-sortIcon field="dateOrdered"></p-sortIcon> </th>
+                <th  pSortableColumn="shippingAddress1">Ship Address <p-sortIcon field="shippingAddress1"></p-sortIcon> </th>
+                <th  pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon> </th>
+                <th> </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+              <tr>
+                <td>{{ order.user.name }}</td>
+                <td>{{ order.totalPrice }}</td>
+                <td>{{ order.dateOrdered | date:'short' }}</td>
+                <td>{{ order.shippingAddress1 }}</td>
+                <td> <p-tag [value]="orderStatus[order.status].label" [severity]="orderStatus[order.status].color"></p-tag> </td>
+                <td>
+                  <p-button icon="pi pi-eye" styleClass="p-button-info mr-3" (click)="showOrder(order.id)"></p-button>
+                  <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="handleDelete(order.id)"></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-card>
+  </div>
+  
+  <p-confirmDialog [style]="{width: '30vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  
