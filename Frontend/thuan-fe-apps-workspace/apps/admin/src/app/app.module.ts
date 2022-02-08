@@ -27,9 +27,14 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DropdownModule}  from 'primeng/dropdown';
 import { EditorModule } from 'primeng/editor';
+import { TagModule } from 'primeng/tag';
+import { InputMaskModule } from 'primeng/inputmask';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { UsersListComponent } from './pages/users/users-list/users-list.component';
+import { UserComponent } from './pages/users/user/user.component';
 
 const UX_MODULE = [
   CardModule,
@@ -44,7 +49,10 @@ const UX_MODULE = [
   InputTextareaModule,
   InputSwitchModule,
   DropdownModule,
-  EditorModule
+  EditorModule,
+  TagModule,
+  InputMaskModule,
+  SelectButtonModule
 ];
 
 export const routes: Routes = [
@@ -59,6 +67,9 @@ export const routes: Routes = [
       { path: 'products', component: ProductsListComponent },
       { path: 'products/form', component: ProductComponent },
       { path: 'products/form/:id', component: ProductComponent },
+      { path: 'users', component: UsersListComponent },
+      { path: 'users/form', component: UserComponent },
+      { path: 'users/form/:id', component: UserComponent },
     ],
   },
 ];
@@ -73,6 +84,8 @@ export const routes: Routes = [
     CategoryComponent,
     ProductsListComponent,
     ProductComponent,
+    UsersListComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

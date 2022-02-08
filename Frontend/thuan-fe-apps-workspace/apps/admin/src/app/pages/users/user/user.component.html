@@ -1,0 +1,118 @@
+<p-toast></p-toast>
+<div class="admin-page">
+  <p-card [header]="isEditMode ? 'Edit User' : 'Add User'" subheader="You can add or edit users here">
+    <div class="grid mb-5">
+      <div class="col-12">
+        <p-toolbar>
+          <div class="p-toolbar-group-left"></div>
+          <div class="p-toolbar-group-right">
+            <p-button
+              styleClass="p-button-primary mr-2"
+              [label]="isEditMode ? 'Update' : 'Create'"
+              icon="pi pi-plus"
+              (click)="onSubmit()"
+            ></p-button>
+            <p-button
+              styleClass="p-button-secondary"
+              label="Cancle"
+              icon="pi pi-arrow-circle-left"
+              (click)="location.back()"
+            ></p-button>
+          </div>
+        </p-toolbar>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <form [formGroup]="form">
+          <div class="formgrid grid">
+            <div class="field col-4">
+              <label for="name">Name</label>
+              <br>
+              <input formControlName="name" id="name" type="text" pInputText class="inputfield w-full" />
+              <small *ngIf="isSubmit && userFormControl.name.errors?.required" class="p-error">Name is required</small>
+            </div>
+
+            <div class="field col-4">
+              <label for="email">Email</label>
+              <br>
+              <input formControlName="email" id="email" type="text" pInputText class="inputfield w-full" />
+              <small *ngIf="userFormControl.email.invalid && isSubmit" class="p-error">
+                <span *ngIf="userFormControl.name.errors?.required">Email is required</span>
+                <span *ngIf="userFormControl.email.errors?.email">Email is invalid</span>
+              </small>
+            </div>
+
+            <div class="field col-4">
+              <label for="password">Password</label>  
+              <br>
+              <div class="field grid">
+                <div class="col-5 pr-0">
+                    <p-selectButton [options]="passwordOptions" formControlName="isUpdatePassword" optionLabel="label" optionValue="value" [disabled]="!isEditMode"></p-selectButton>
+                  </div>
+                  <div class="col-7 p-0">
+                    <input formControlName="password" id="password" type="password" pInputText [ngStyle]="{'background-color': userFormControl.isUpdatePassword.value === 'OFF' ? '#dedfdf' : 'transparent'}"/>
+                    <small *ngIf="userFormControl.password.errors?.required && isSubmit" class="p-error">Password is required</small>
+                  </div>
+              </div>
+             
+            </div>
+
+            <div class="field col-4">
+              <label for="color">Phone</label> <br>
+              <p-inputMask
+                mask="9999 999 999"
+                formControlName="phone"
+                placeholder="9999 999 999"
+                styleClass="inputfield w-full"
+              ></p-inputMask>
+              <small *ngIf="userFormControl.phone.errors?.required && isSubmit" class="p-error">Phone is required</small>
+            </div>
+
+            <div class="field col-4">
+              <label for="isAdmin">Is Admin</label> <br>
+              <p-inputSwitch formControlName="isAdmin"></p-inputSwitch>
+            </div>
+          </div>
+          
+          <div class="formgrid grid">
+            <div class="field col-4">
+              <label for="street">Street</label>
+              <input formControlName="street" id="street" type="text" pInputText class="inputfield w-full" />
+            </div>
+
+            <div class="field col-4">
+              <label for="street">Apartment</label>
+              <input formControlName="apartment" id="apartment" type="text" pInputText class="inputfield w-full" />
+            </div>
+
+            <div class="field col-4">
+              <label for="street">Zip Code</label>
+              <input formControlName="zip" id="zip" type="text" pInputText class="inputfield w-full" />
+            </div>
+
+            <div class="field col-4">
+              <label for="city">City</label>
+              <input formControlName="city" id="city" type="text" pInputText class="inputfield w-full" />
+            </div>
+
+            <div class="field col-4">
+              <label for="country">Country</label><br />
+              <p-dropdown
+                [options]="countries"
+                formControlName="country"
+                optionLabel="name"
+                optionValue="id"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                placeholder="Select a Country"
+                styleClass="inputfield w-full"
+              ></p-dropdown>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-card>
+</div>

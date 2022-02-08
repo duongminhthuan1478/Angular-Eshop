@@ -1,0 +1,54 @@
+<div class="admin-page">
+    <p-card header="Users" subheader="List of all users">
+      <div class="grid">
+        <div class="col-12">
+          <p-toolbar>
+            <div class="p-toolbar-group-left">
+              <p-button
+                label="New"
+                styleClass="p-button-success"
+                icon="pi pi-plus"
+                routerLink="form"
+              ></p-button>
+            </div>
+          </p-toolbar>
+        </div>
+      </div>
+  
+      <div class="grid">
+        <div class="col-12">
+          <p-table [value]="users" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th>Email</th>
+                <th style="text-align: center;">Is Admin</th>
+                <th>Phone</th>
+                <th>Country</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td style="text-align: center;">
+                  <p-tag *ngIf="user.isAdmin" icon="pi pi-check" severity="success"></p-tag>
+                  <p-tag *ngIf="!user.isAdmin" icon="pi pi-times" severity="danger"></p-tag>
+                </td>
+                <td>{{ user.phone }}</td>
+                <td>{{ _users.getCountryName(user.country) }}</td>
+                <td>
+                    <p-button icon="pi pi-pencil" styleClass="p-button-info mr-3" (click)="handleUpdate(user.id)"></p-button>
+                    <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="handleDelete(user.id)"></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-card>
+  </div>
+  
+  <p-confirmDialog [style]="{width: '30vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  
