@@ -1,7 +1,8 @@
+import { takeUntil, Subject } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Order, OrdersService } from '@thuan-fe-apps-workspace/orders';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ORDER_STATUS } from '../order.constant';
 
 @Component({
@@ -9,8 +10,8 @@ import { ORDER_STATUS } from '../order.constant';
   templateUrl: './orders-list.component.html',
   styleUrls: ['./orders-list.component.scss']
 })
-export class OrdersListComponent implements OnInit {
-
+export class OrdersListComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   orders: Order[] = []
   orderStatus = ORDER_STATUS;
 
@@ -23,6 +24,11 @@ export class OrdersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   showOrder(orderId) {
@@ -41,7 +47,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   private getOrders() {
-    this._orders.getOrders().subscribe((res) => {
+    this._orders.getOrders().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.orders = res.data;
       }
@@ -49,7 +55,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   private deleteOrder(orderId: string) {
-    this._orders.deleteOrder(orderId).subscribe({
+    this._orders.deleteOrder(orderId).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) => { 
         const success = res.success ? 'Success' : 'Error';
         this._message.add({severity: success.toLowerCase(), summary: success, detail: res.message});

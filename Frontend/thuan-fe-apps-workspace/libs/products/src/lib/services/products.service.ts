@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@thuan-env/environment';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,11 @@ export class ProductsService {
 
   geProductById(productId: string): Observable<any> {
     return this.http.get<any>(`${this.API_PRODUCTS}/getProductById/${productId}`);
+  }
+
+  async getProductCount(): Promise<any> {
+    const productCount$ = this.http.get<any>(this.API_PRODUCTS + '/count');
+    return await lastValueFrom(productCount$);
   }
 
   createProduct(productFormData: FormData): Observable<any> {

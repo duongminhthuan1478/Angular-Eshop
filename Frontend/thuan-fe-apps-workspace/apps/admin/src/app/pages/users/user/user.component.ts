@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
@@ -10,7 +11,8 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'admin-user',
   templateUrl: './user.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   passwordOptions = [{label: 'OFF', value: 'OFF'}, {label: 'ON', value: 'ON'}];
   countries = [];
 
@@ -37,6 +39,11 @@ export class UserComponent implements OnInit {
     this.initForm();
     this.updateStatusPasswordInput();
     this.patchDataEditMode();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   public onSubmit() {
@@ -78,13 +85,13 @@ export class UserComponent implements OnInit {
       country: [''],
       isUpdatePassword: this.isEditMode ? 'OFF' : 'ON'
     });
-    this.userFormControl.isUpdatePassword.valueChanges.subscribe(val => {
+    this.userFormControl.isUpdatePassword.valueChanges.pipe(takeUntil(this.destroySubscription$)).subscribe(val => {
       this.updateStatusPasswordInput();
     })
   } 
 
   private create(user: User) {
-    this._users.createUser(user).subscribe({
+    this._users.createUser(user).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});
@@ -100,7 +107,7 @@ export class UserComponent implements OnInit {
   }
 
   private update(user: User) {
-    this._users.updateUser(user).subscribe({
+    this._users.updateUser(user).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});
@@ -121,7 +128,7 @@ export class UserComponent implements OnInit {
 
   private patchDataEditMode() {
     if(this.isEditMode) {
-      this._users.getUserById(this.userId).subscribe(res => {
+      this._users.getUserById(this.userId).pipe(takeUntil(this.destroySubscription$)).subscribe(res => {
         if(res?.data) {
           const data = res.data;
           this.form.patchValue(data);

@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { CategoriesService, Category } from '@thuan-fe-apps-workspace/products';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'admin-category',
   templateUrl: './category.component.html',
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
+
   form: FormGroup = null;
   isSubmit = false;
   isEditMode = false;
@@ -29,6 +32,11 @@ export class CategoryComponent implements OnInit {
     this.categoryId = this.route.snapshot.params?.id;
     this.isEditMode = !!this.categoryId;
     this.patchDataEditMode();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   get categoryControls() {
@@ -63,7 +71,7 @@ export class CategoryComponent implements OnInit {
 
   private patchDataEditMode() {
     if(this.isEditMode) {
-      this._categories.getCategoryById(this.categoryId).subscribe(category => {
+      this._categories.getCategoryById(this.categoryId).pipe(takeUntil(this.destroySubscription$)).subscribe(category => {
         if(category?.data) {
           const data = category.data;
           this.form.patchValue({
@@ -77,7 +85,7 @@ export class CategoryComponent implements OnInit {
   }
 
   private createCategory(category: Category) {
-    this._categories.createCategory(category).subscribe({
+    this._categories.createCategory(category).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});
@@ -93,7 +101,7 @@ export class CategoryComponent implements OnInit {
   }
 
   private updateCategory(category: Category) {
-    this._categories.updateCategory(category).subscribe({
+    this._categories.updateCategory(category).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});

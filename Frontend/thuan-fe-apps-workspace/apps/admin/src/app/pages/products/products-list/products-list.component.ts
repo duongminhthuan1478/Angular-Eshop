@@ -1,5 +1,6 @@
+import { Subject, takeUntil } from 'rxjs';
 import { Product, ProductsService } from '@thuan-fe-apps-workspace/products';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
@@ -7,7 +8,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   selector: 'admin-products-list',
   templateUrl: './products-list.component.html',
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   public products: Product[] = [];
 
   constructor(
@@ -19,6 +21,11 @@ export class ProductsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   handleUpdate(id: string) {
@@ -37,7 +44,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   private getProducts() {
-    this._products.getCategories().subscribe((res) => {
+    this._products.getCategories().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.products = res.data;
       }
@@ -45,7 +52,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   private deleteProduct(id: string) {
-    this._products.deleteProduct(id).subscribe({
+    this._products.deleteProduct(id).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) => { 
         const success = res.success ? 'Success' : 'Error';
         this._message.add({severity: success.toLowerCase(), summary: success, detail: res.message});

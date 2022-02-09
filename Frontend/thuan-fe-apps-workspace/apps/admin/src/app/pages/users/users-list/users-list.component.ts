@@ -1,3 +1,4 @@
+import { Subject, takeUntil } from 'rxjs';
 import { UsersService, User } from '@thuan-fe-apps-workspace/users';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   templateUrl: './users-list.component.html'
 })
 export class UsersListComponent implements OnInit {
-
+  destroySubscription$: Subject<any> = new Subject<any>();
   public users: User[] = [];
 
   constructor(
@@ -20,6 +21,11 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
    this.getUsers();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   public handleDelete(catId: string) {
@@ -38,7 +44,7 @@ export class UsersListComponent implements OnInit {
   }
 
   private getUsers() {
-    this._users.getUsers().subscribe((res) => {
+    this._users.getUsers().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.users = res.data;
       }
@@ -46,7 +52,7 @@ export class UsersListComponent implements OnInit {
   }
 
   private delete(catId: string) {
-    this._users.deleteUser(catId).subscribe({
+    this._users.deleteUser(catId).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) => { 
         const success = res.success ? 'Success' : 'Error';
         this._message.add({severity: success.toLowerCase(), summary: success, detail: res.message});

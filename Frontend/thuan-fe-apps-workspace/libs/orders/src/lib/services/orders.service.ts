@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@thuan-env/environment';
 import { Injectable } from '@angular/core';
@@ -19,6 +19,16 @@ export class OrdersService {
 
   getOrderyById(orderId: string): Observable<any> {
     return this.http.get<any>(`${this.API_ORDERS}/getOrderById/${orderId}`);
+  }
+
+  async getOrderCount(): Promise<any> {
+    const orderCount$ = this.http.get<any>(this.API_ORDERS + '/count');
+    return await lastValueFrom(orderCount$);
+  }
+
+  async getTotalSale(): Promise<any> {
+    const totalSale$ = this.http.get<any>(this.API_ORDERS + '/getTotalSales');
+    return await lastValueFrom(totalSale$);
   }
 
   createOrder(order: Order): Observable<any> {

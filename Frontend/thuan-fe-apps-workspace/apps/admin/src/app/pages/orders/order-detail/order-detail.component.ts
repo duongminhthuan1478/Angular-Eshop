@@ -1,7 +1,8 @@
+import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { OrdersService, Order } from '@thuan-fe-apps-workspace/orders';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ORDER_STATUS } from '../order.constant';
 
 @Component({
@@ -9,7 +10,8 @@ import { ORDER_STATUS } from '../order.constant';
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss']
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   orderId: string;
   order: Order; 
   orderStatuses: any[];
@@ -27,8 +29,13 @@ export class OrderDetailComponent implements OnInit {
     this.getListOrderStatus();
   }
 
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
+  }
+
   public onStatusChange(event) {
-    this._orders.updateOrderStatus({status: event.value}, this.orderId).subscribe({
+    this._orders.updateOrderStatus({status: event.value}, this.orderId).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this._message.add({severity:'error', summary:'Failed', detail: res.message});
@@ -43,7 +50,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   private getOrderyById() {
-    this._orders.getOrderyById(this.orderId).subscribe(res => {
+    this._orders.getOrderyById(this.orderId).pipe(takeUntil(this.destroySubscription$)).subscribe(res => {
       if(res.success) {
         this.order = res.data
         this.orderStatusSelected = res.data.status;

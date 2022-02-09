@@ -1,5 +1,5 @@
 import { User } from '@thuan-fe-apps-workspace/users';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@thuan-env/environment';
@@ -20,6 +20,11 @@ export class UsersService {
 
   getUsers(): Observable<any> {
     return this.http.get<any>(this.API_USERS);
+  }
+
+  async getUserCount(): Promise<any> {
+    const userCount$ = this.http.get<any>(this.API_USERS + '/count');
+    return await lastValueFrom(userCount$);
   }
 
   getUserById(userId: string): Observable<any> {

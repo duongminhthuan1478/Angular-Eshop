@@ -1,0 +1,47 @@
+.dashboard-item {
+    display: flex;
+    text-align: center;
+    color: var(--surface-0);
+    justify-content: space-between;
+   
+    .pi {
+        font-size: 4em;
+        margin-bottom: 15px;
+    }
+    .name {
+        font-size: 1.2em;
+    }
+    .number {
+        font-size: 2em;
+        float: right;
+    }
+}
+
+::ng-deep .card-order {
+    &:hover {
+        cursor: pointer;
+    }
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,154,1) 50%, rgba(252,176,69,1) 100%);
+}
+::ng-deep .card-product {
+    &:hover {
+        cursor: pointer;
+    }
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,41,121,1) 39%, rgba(0,212,255,1) 100%);
+}
+::ng-deep .card-user {
+    &:hover {
+        cursor: pointer;
+    }
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,24,1) 42%);
+}
+::ng-deep .card-total-sale {
+    &:hover {
+        cursor: pointer;
+    }
+    background: rgb(252,176,69);
+    background: linear-gradient(90deg, rgba(252,176,69,1) 4%, rgba(253,217,29,1) 39%, rgba(131,58,180,1) 83%);
+}

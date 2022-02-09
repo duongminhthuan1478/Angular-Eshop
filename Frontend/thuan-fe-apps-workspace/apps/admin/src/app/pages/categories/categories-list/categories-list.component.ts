@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { takeUntil, Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesService, Category } from '@thuan-fe-apps-workspace/products';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -7,8 +8,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   selector: 'admin-categories-list',
   templateUrl: './categories-list.component.html',
 })
-export class CategoriesListComponent implements OnInit {
-
+export class CategoriesListComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   public categories: Category[] = [];
 
   constructor(
@@ -20,6 +21,11 @@ export class CategoriesListComponent implements OnInit {
 
   ngOnInit(): void {
    this.getCategories();
+  }
+  
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   public handleDeleteCategory(catId: string) {
@@ -39,7 +45,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   private getCategories() {
-    this._categories.getCategories().subscribe((res) => {
+    this._categories.getCategories().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.categories = res.data;
       }
@@ -47,7 +53,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   private deleteCategory(catId: string) {
-    this._categories.deleteCategory(catId).subscribe({
+    this._categories.deleteCategory(catId).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) => { 
         const success = res.success ? 'Success' : 'Error';
         this._message.add({severity: success.toLowerCase(), summary: success, detail: res.message});

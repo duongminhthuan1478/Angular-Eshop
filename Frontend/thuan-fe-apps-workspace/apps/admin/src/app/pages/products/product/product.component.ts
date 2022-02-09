@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
@@ -9,8 +10,8 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'admin-product',
   templateUrl: './product.component.html'
 })
-export class ProductComponent implements OnInit {
-  
+export class ProductComponent implements OnInit, OnDestroy {
+  destroySubscription$: Subject<any> = new Subject<any>();
   categories = [];
   imageDisplay: string | ArrayBuffer;
 
@@ -37,6 +38,11 @@ export class ProductComponent implements OnInit {
     this.productId = this.route.snapshot.params?.id;
     this.isEditMode = !!this.productId;
     this.patchDataEditMode();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next(null);
+    this.destroySubscription$.complete();
   }
 
   onImageUpload(event) {
@@ -83,7 +89,7 @@ export class ProductComponent implements OnInit {
   } 
 
   private create(formData: FormData) {
-    this._products.createProduct(formData).subscribe({
+    this._products.createProduct(formData).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});
@@ -99,7 +105,7 @@ export class ProductComponent implements OnInit {
   }
 
   private update(formData: FormData) {
-    this._products.updateProduct(formData, this.productId).subscribe({
+    this._products.updateProduct(formData, this.productId).pipe(takeUntil(this.destroySubscription$)).subscribe({
       next: (res) =>  {
         if(!res.success) {
           this.messageService.add({severity:'error', summary:'Failed', detail: res.message});
@@ -115,7 +121,7 @@ export class ProductComponent implements OnInit {
   }
 
   private getCategories() {
-    this._categories.getCategories().subscribe((res) => {
+    this._categories.getCategories().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.categories = res.data;
       }
@@ -124,7 +130,7 @@ export class ProductComponent implements OnInit {
 
   private patchDataEditMode() {
     if(this.isEditMode) {
-      this._products.geProductById(this.productId).subscribe(res => {
+      this._products.geProductById(this.productId).pipe(takeUntil(this.destroySubscription$)).subscribe(res => {
         if(res?.data) {
           const data = res.data;
           data.category = data.category.id;

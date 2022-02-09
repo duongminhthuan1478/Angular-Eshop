@@ -1,1 +1,53 @@
-<p>dashboard works!</p>
+<div class="admin-page">
+    <p-card header="Dashboard" subheader="Latest updates">
+        <div class="grid">
+            <div class="col-3">
+                <p-card styleClass="card-order" [routerLink]="['/orders']">
+                    <div class="dashboard-item">
+                        <div>
+                            <i class="pi pi-shopping-cart"></i><br>
+                            <span class="name">Orders</span>
+                        </div>
+                        <span class="number">{{ totalOrders }}</span>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col-3">
+                <p-card styleClass="card-product" [routerLink]="['/products']">
+                    <div class="dashboard-item">
+                        <div>
+                            <i class="pi pi-briefcase"></i><br>
+                            <span class="name">Products</span>
+                        </div>
+                        <span class="number">{{ totalProducts }}</span>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col-3">
+                <p-card styleClass="card-user" [routerLink]="['/users']">
+                    <div class="dashboard-item">
+                        <div>
+                            <i class="pi pi-user"></i><br>
+                            <span class="name">Users</span>
+                        </div>
+                        <span class="number">{{ totalUsers }}</span>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col-3">
+                <p-card styleClass="card-total-sale" [routerLink]="['/orders']">
+                    <div class="dashboard-item">
+                        <div>
+                            <i class="pi pi-dollar"></i><br>
+                            <span class="name">Sale</span>
+                        </div>
+                        <span class="number">{{ totalSales | currency}}</span>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </p-card>
+</div>
