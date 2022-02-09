@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@thuan-fe-apps-workspace/users';
 
 @Component({
   selector: 'admin-sidebar',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _auth: AuthService) { }
 
   ngOnInit(): void {
   }

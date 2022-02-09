@@ -1,0 +1,37 @@
+<div class="login-register">
+    <div class="login-register-panel">
+        <div class="grid">
+            <div class="col">
+               <p-card header="Welcome to Eshop!" subheader="Login Page">
+                    <form [formGroup]="loginForm"> 
+                        <div class="grid">
+                            <div class="col-12">
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                                    <input type="text" formControlName="email" pInputText placeholder="Email">
+                                  
+                                </div>
+                                <small *ngIf="isSubmit && loginFormControls.email.errors?.required" class="p-error">Email is required</small>     
+                                <small *ngIf="isSubmit && loginFormControls.email.errors?.email" class="p-error">Email is invalid</small>      
+                            </div>
+                            <div class="col-12">
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                                    <input type="password" formControlName="password" pInputText placeholder="Password">   
+                                </div>
+                                <small *ngIf="isSubmit && loginFormControls.password.errors?.required" class="p-error">Password is required</small>      
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p-button label="Login" styleClass="full-width text-success" (onClick)="login()"></p-button>
+                        </div>
+                        <div class="col-12">
+                            <small *ngIf="isSubmit && isAuthenFailed" class="p-error" >{{ authMessage }}</small>
+                        </div>
+                    </form>
+                </p-card>
+               
+            </div>
+        </div>
+    </div>
+</div>
