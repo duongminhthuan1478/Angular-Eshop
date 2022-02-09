@@ -10,6 +10,9 @@
 - RXJS
 - NGRX For User Session
 - SCSS
+- Authen & author:
+ + Using atob() to decode token payload data to determine user is Admin or not
+ + Using HttpInterceptor to append Authorization token for every request api
 
 
 # For Backend ( WebAPI ): localhost:3000 | using npm start to run
