@@ -19,6 +19,10 @@ export class ProductsService {
   geProductById(productId: string): Observable<any> {
     return this.http.get<any>(`${this.API_PRODUCTS}/getProductById/${productId}`);
   }
+  
+  getFeaturedProducts(count: number): Observable<any> {
+    return this.http.get<any>(`${this.API_PRODUCTS}/list-product-featured/${count}`);
+  }
 
   async getProductCount(): Promise<any> {
     const productCount$ = this.http.get<any>(this.API_PRODUCTS + '/count');

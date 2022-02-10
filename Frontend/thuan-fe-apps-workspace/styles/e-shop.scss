@@ -1,4 +1,5 @@
 // Base
+@import '~normalize.css/normalize.css';
 @import './base/colors.scss';
 @import './base/fonts.scss';
 @import './base/mixin.scss';
@@ -8,6 +9,9 @@
 @import '~primeng/resources/themes/lara-light-indigo/theme.css';
 @import '~primeng/resources/primeng.min.css';
 @import '~primeflex/primeflex.css';
+
+// External libs
+@import '~animate.css/animate.css';
 
 // Updated & Overwrite font 'Open-san' instead of primng font after import primeng
 @import './base/configuration.scss'; 
@@ -19,6 +23,16 @@
 // Shared
 @import './apps/shop/shares/header.scss';
 @import './apps/shop/shares/footer.scss';
+@import './apps/shop/shares/nav.scss';
 
 // Libs
 @import './libs/ui/ui.scss';
+@import './libs/products/product.scss';
+@import './libs/users/user.scss';
+
+.container {
+    width: 1200px;
+    padding: 15px;
+    margin: 0 auto;
+    background-color: var(--surface-100);
+}

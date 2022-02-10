@@ -1,3 +1,5 @@
+import { HttpClientModule } from '@angular/common/http';
+
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,8 +14,10 @@ import { FooterComponent } from './shared/footer/footer.component';
 
 // Libs module
 import { UiModule } from '@thuan-fe-apps-workspace/ui'; /** using short imports declare at paths in tsconfig.base.json file */
+import { ProductsModule } from '@thuan-fe-apps-workspace/products';
 
 import {AccordionModule} from 'primeng/accordion';
+import { NavComponent } from './shared/nav/nav.component';
 
 const route: Routes = [
   { path: '', component: HomePageComponent },
@@ -27,13 +31,16 @@ const route: Routes = [
     ProductListComponent,
     HeaderComponent,
     FooterComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ProductsModule,
     UiModule, 
+    HttpClientModule,
     RouterModule.forRoot(route),
-    AccordionModule
+    AccordionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
