@@ -11,6 +11,7 @@ import { ProductsListComponent } from './pages/products/products-list/products-l
 import { UserComponent } from './pages/users/user/user.component';
 import { UsersListComponent } from './pages/users/users-list/users-list.component';
 import { ShellComponent } from './shared/shell/shell.component';
+import { UsersModule } from '@thuan-fe-apps-workspace/users';
 
 export const routes: Routes = [
   {
@@ -32,11 +33,13 @@ export const routes: Routes = [
       { path: 'orders/:id', component: OrderDetailComponent },
     ],
   },
-  { pathMatch: 'full', path: '**', redirectTo: '' }
+  { path: '**', pathMatch:'full', redirectTo:''},
+  
 ];
 @NgModule({
-    imports: [  
-        RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
+    imports: [
+      UsersModule,
+      RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     ],
     exports: [RouterModule],
     declarations: [],

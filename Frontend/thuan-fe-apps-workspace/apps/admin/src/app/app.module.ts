@@ -39,7 +39,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
-import { JwtInterceptor, UsersModule } from '@thuan-fe-apps-workspace/users';
+import { JwtInterceptor } from '@thuan-fe-apps-workspace/users';
 
 const UX_MODULE = [
   CardModule,
@@ -84,7 +84,6 @@ const UX_MODULE = [
     ReactiveFormsModule,
     AppRoutingModule,
     ...UX_MODULE,
-    UsersModule
   ],
   providers: [
     MessageService, 
