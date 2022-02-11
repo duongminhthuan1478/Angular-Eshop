@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-4">
                     <h5>Total Price</h5>
-                    <div>{{order.totalPrice | currency}}</div>
+                    <div>{{order.totalPrice | currency: "VND"}}</div>
                 </div>
             </div>
         </p-fieldset>
@@ -42,12 +42,12 @@
                 <div class="col-2">{{orderItem.product.category.name}}</div>
                 <div class="col-1">{{orderItem.product.price}}</div>
                 <div class="col-1">{{orderItem.quantity}}</div>
-                <div class="col-2">{{orderItem.quantity * orderItem.product.price | currency}}</div>
+                <div class="col-2">{{orderItem.quantity * orderItem.product.price | currency: "VND"}}</div>
             </div>
             
             <div class="grid mt-3" style="color: red">
                 <div class="col-2 col-offset-8 font-bold">Total Price</div>
-                <div class="col-2 font-bold">{{order.totalPrice | currency}}</div>
+                <div class="col-2 font-bold">{{order.totalPrice | currency: "VND"}}</div>
             </div>
         </p-fieldset>
 

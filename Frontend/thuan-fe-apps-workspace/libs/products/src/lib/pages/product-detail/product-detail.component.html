@@ -14,8 +14,8 @@
         ></p-rating>
       </div>
       <div class="product-price">
-        {{ product.price | currency }}
-        <span class="price-before">{{ product.price + 180 | currency }}</span>
+        {{ product.price | currency: "VND" }}
+        <span class="price-before">{{ product.price + 180 | currency: "VND" }}</span>
       </div>
       <div class="product-quantity">
         <div class="field col-12 p-0">
