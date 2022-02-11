@@ -44,7 +44,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   private getProducts() {
-    this._products.getCategories().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
+    this._products.getProducts().pipe(takeUntil(this.destroySubscription$)).subscribe((res) => {
       if (res.success) {
         this.products = res.data;
       }

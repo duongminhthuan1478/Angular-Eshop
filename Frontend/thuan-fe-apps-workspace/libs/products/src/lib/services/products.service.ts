@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@thuan-env/environment';
 import { Observable, lastValueFrom } from 'rxjs';
@@ -12,11 +12,15 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<any> {
-    return this.http.get<any>(this.API_PRODUCTS);
+  getProducts(categoriesFilter:string[] = []): Observable<any> {
+    let params = new HttpParams();
+    if(categoriesFilter?.length > 0) {
+      params = params.append('categories', categoriesFilter.join(','));
+    }
+    return this.http.get<any>(this.API_PRODUCTS, {params: params});
   }
 
-  geProductById(productId: string): Observable<any> {
+  getProductById(productId: string): Observable<any> {
     return this.http.get<any>(`${this.API_PRODUCTS}/getProductById/${productId}`);
   }
   

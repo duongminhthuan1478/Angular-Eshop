@@ -130,7 +130,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   private patchDataEditMode() {
     if(this.isEditMode) {
-      this._products.geProductById(this.productId).pipe(takeUntil(this.destroySubscription$)).subscribe(res => {
+      this._products.getProductById(this.productId).pipe(takeUntil(this.destroySubscription$)).subscribe(res => {
         if(res?.data) {
           const data = res.data;
           data.category = data.category.id;

@@ -1,0 +1,25 @@
+<div class="products-page">
+    <div class="grid">
+        <div class="col-3">
+            <h4>Tìm Theo Danh Mục</h4>
+            <div class="field-checkbox" *ngFor="let cat of categories">
+                <p-checkbox [(ngModel)]="cat.checked" [binary]="true" [inputId]="cat.id" (onChange)="categoryFilter()"></p-checkbox>
+                <label [for]="cat.id">{{ cat.name }}</label>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="grid" *ngIf="products.length > 0; else noProductTpl">
+                <div class="col-4" *ngFor="let product of products">
+                    <products-product-item [product]="product"></products-product-item>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noProductTpl>
+        <div>
+            <h4>No product found</h4>
+        </div>
+    </ng-template>
+</div>
+
