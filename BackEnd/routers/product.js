@@ -21,16 +21,24 @@ const storage = multer.diskStorage({
     }
 });
 
-const uploadOptions = multer({ storage: storage })
+const uploadOptions = multer({ storage: storage, limits: { fieldSize: 25 * 1024 * 1024 } })
 
 router.get('/', async (req, res) => {
     let filter = {};
+    let checkParamId = true;
     //Query param Example: http://localhost:3000/api/v1/products?categories=5f15d54cf3a046427a1c26e3,5f15d545f3a046427a1c26e2
     if(req.query.categories) {
-        filter = {category: req.query.categories.split(',')} // Split all query param value into array and filter
+        const paramIds = req.query.categories.split(',');
+        paramIds.forEach(id => {
+            if(!mongoose.isValidObjectId(id)) {
+                checkParamId = false;
+            }
+        });
+        
+        checkParamId ? (filter = {category: req.query.categories.split(',')})  : (filter = {});
     }
     // populate('field') to display all fields of Category record instead of only ObjectId like category model
-    const products = await Product.find(filter).populate("category");
+    const products = await Product.find(filter).populate("category").sort({'dateCreated': -1});
     if(products) {
         res.status(200).send({success: true, size: products.length, data: products});
         return;
@@ -107,7 +115,8 @@ router.post('/create', uploadOptions.single('image'), async(req, res) => {
         countInStock: req.body.countInStock, 
         rating: req.body.rating, 
         numReviews: req.body.numReviews, 
-        isFeatured: req.body.isFeatured 
+        isFeatured: req.body.isFeatured ,
+        dateCreated: new Date()
     });
 
     product = await product.save();
@@ -164,7 +173,7 @@ router.put('/update-galary-images/:id', uploadOptions.array('images', 10), async
         return res.status(400).send({success: false, message: "Invalid Product Id !!"});
     }
 
-    const basePath = `${req.protocol}://${req.get('host')}/public/images/uploads/`
+    const basePath = `${req.protocol}://${req.get('host')}/images/uploads/`
     const files = req.files;
     const imagesPath = [];
     if(!files)  return res.status(400).send({success: false, message: "Please upload images !!"});;
