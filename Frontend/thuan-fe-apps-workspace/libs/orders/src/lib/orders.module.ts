@@ -17,9 +17,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 
+import { AuthGuard, UsersModule } from '@thuan-fe-apps-workspace/users';
+
 const routes: Routes = [
   { path: 'cart', component: CartPageComponent },
-  { path: 'checkout', component: CheckoutPageComponent },
+  {
+    path: 'checkout',
+    canActivate: [AuthGuard],
+    component: CheckoutPageComponent,
+  },
   { path: 'checkout-success', component: ThankYouComponent },
 ];
 @NgModule({
@@ -27,6 +33,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    UsersModule,
     RouterModule.forChild(routes),
     ButtonModule,
     BadgeModule,
