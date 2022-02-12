@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -28,7 +29,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     UiModule,
     OrdersModule,
     FormsModule,
@@ -36,7 +36,8 @@ const routes: Routes = [
     ButtonModule,
     CheckboxModule,
     RatingModule,
-    InputNumberModule
+    InputNumberModule,
+    
   ],
   declarations: [
     ProductsSearchComponent,
@@ -52,6 +53,7 @@ const routes: Routes = [
     ProductFeaturedComponent,
     ProductItemComponent,
     ProductListComponent
-  ]
+  ],
+  providers: [MessageService]
 })
 export class ProductsModule {}

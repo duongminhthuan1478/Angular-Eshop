@@ -1,9 +1,8 @@
 import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { OrdersService, Order } from '@thuan-fe-apps-workspace/orders';
+import { OrdersService, Order, ORDER_STATUS } from '@thuan-fe-apps-workspace/orders';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ORDER_STATUS } from '../order.constant';
 
 @Component({
   selector: 'admin-order-detail',

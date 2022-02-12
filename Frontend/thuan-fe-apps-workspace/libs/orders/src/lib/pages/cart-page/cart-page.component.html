@@ -1,0 +1,61 @@
+<div class="cart-page">
+  <div>
+    <!-- <p-button
+      pRipple
+      label="Quay Lại"
+      icon="pi pi-arrow-left"
+      (onClick)="backToShop()"
+    ></p-button> -->
+  </div>
+  <div class="grid p-fluid">
+    <div class="col-8">
+      <div>
+        <h4>E-shop | Giỏ Hàng: {{ cartCount }} Sản phẩm</h4>
+      </div>
+      <div class="cart-shipping mb-5">
+        Thời gian giao hàng dự kiến từ 3-5 ngày
+      </div>
+      <div class="cart-item mb-3" *ngFor="let item of cartItemDetails; trackBy: trackByFn">
+        <div class="grid">
+          <div class="col-2 cart-item-image">
+            <img
+              [src]="item.product.image"
+              [alt]="item.product.name"
+            />
+          </div>
+          <div class="col-5">
+            <div class="cart-item-name"> {{ item.product.name }}</div>
+            <div class="cart-item-price">{{ item.product.price | currency: 'VND' }}</div>
+          </div>
+          <div class="col-3">
+            <div class="field cart-item-quantity">
+              <p-inputNumber
+                inputId="item.product.id"
+                mode="decimal"
+                [showButtons]="true"
+                [min]="1"
+                [max]="100"
+                (onInput)="updateCartItemQuantity($event, item)"
+                [(ngModel)]="item.quantity"
+              ></p-inputNumber>
+            </div>
+            <div class="item subtotal">
+                Tổng cộng: <span class="cart-item-subtotal-value"> {{ item.product.price * item.quantity | currency: 'VND'}}</span>
+            </div>
+          </div>
+          <div class="col-1 cart-item-remove col-offset-1">
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-danger p-button-sm"
+              (onClick)="deleteCartItem(item)"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+        <orders-order-summary></orders-order-summary>
+    </div>
+  </div>
+</div>

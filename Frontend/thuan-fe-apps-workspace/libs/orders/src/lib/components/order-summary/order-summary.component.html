@@ -1,0 +1,23 @@
+<div class="order-summary">
+    <h3>THÔNG TIN ĐƠN HÀNG</h3>
+    <div class="summary-product" *ngFor="let item of productOrders">
+        <span class="summary-product-name"> {{ item.prodname }}</span>
+        <div class="grid summary-product-price">
+            <span class="col-4 col-offset-2">Số lượng: {{ item.quantity }}</span>
+            <span class="col-6">Đơn giá: {{ item.subPrice | currency: 'VND'}}</span>
+        </div>
+    </div>
+    <div class="summary-group-span mt-5">
+        <span>Đóng gói và vận chuyển</span>
+        <span class="free">Miễn phí</span>
+    </div>
+    <div class="to-checkout">
+        <div class="summary-group-span">
+            <span>Tổng cộng</span>
+            <span class="p-error">{{ totalPrice | currency: 'VND'}}</span>
+        </div>
+        <div class="checkout-button" *ngIf="!this.isCheckoutRoute">
+            <p-button label="Đặt Hàng" (onClick)="navigateToCheckout()"></p-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="checkout-page"></div>
+
+<div class="grid checkout-form">
+  <div class="col-8">
+    <p-card header="Thông tin, địa chỉ nhận hàng">
+      <form [formGroup]="form">
+        <div class="formgrid grid">
+          <div class="field col-4">
+            <label for="name">Tên Đăng Nhập | Người Nhận</label>
+            <br>
+            <input formControlName="name" id="name" type="text" pInputText class="inputfield w-full" />
+            <small *ngIf="isSubmit && checkoutFormControl.name.errors?.required" class="p-error">Vui lòng nhập tên</small>
+          </div>
+  
+          <div class="field col-4">
+            <label for="email">Email</label>
+            <br>
+            <input formControlName="email" id="email" type="text" pInputText class="inputfield w-full" />
+            <small *ngIf="checkoutFormControl.email.invalid && isSubmit" class="p-error">
+              <span *ngIf="checkoutFormControl.name.errors?.required">Email không được để trống</span>
+              <span *ngIf="checkoutFormControl.email.errors?.email">Email không hợp lệ</span>
+            </small>
+          </div>
+  
+          <div class="field col-4">
+            <label for="phone">Số Điện Thoại</label> <br>
+            <p-inputMask
+              inputId="phone"
+              mask="9999 999 999"
+              formControlName="phone"
+              placeholder="9999 999 999"
+              styleClass="inputfield w-full"
+            ></p-inputMask>
+            <small *ngIf="checkoutFormControl.phone.errors?.required && isSubmit" class="p-error">Số Điện Thoại không được để trống</small>
+          </div>
+        </div>
+        
+        <div class="formgrid grid">
+          <div class="field col-4">
+            <label for="street">Địa Chỉ: số nhà, phường, xã</label>
+            <input formControlName="street" id="street" type="text" pInputText class="inputfield w-full" />
+            <small *ngIf="checkoutFormControl.street.errors?.required && isSubmit" class="p-error">Địa chỉ nhận hàng không được để trống</small>
+          </div>
+  
+          <div class="field col-4">
+            <label for="apartment">Địa Chỉ phụ: căn hộ,...</label>
+            <input formControlName="apartment" id="apartment" type="text" pInputText class="inputfield w-full" />
+          </div>
+  
+          <div class="field col-4">
+            <label for="zip">Mã Bưu Điện</label><br>
+            <input formControlName="zip" id="zip" type="text" pInputText class="inputfield w-full" />
+          </div>
+  
+          <div class="field col-4">
+            <label for="city">Thành Phố</label>
+            <input formControlName="city" id="city" type="text" pInputText class="inputfield w-full" />
+            <small *ngIf="checkoutFormControl.city.errors?.required && isSubmit" class="p-error">Thành phố không được để trống</small>
+          </div>
+  
+          <div class="field col-4">
+            <label for="country">Quốc Gia</label><br />
+            <p-dropdown
+              [options]="countries"
+              formControlName="country"
+              optionLabel="name"
+              optionValue="id"
+              [filter]="true"
+              filterBy="name"
+              [showClear]="false"
+              placeholder="Select a Country"
+              styleClass="inputfield w-full"
+            ></p-dropdown>
+            <small *ngIf="checkoutFormControl.city.errors?.required && isSubmit" class="p-error">Vui lòng chọn 1 quốc gia</small>
+          </div>
+        </div>
+      </form>
+    </p-card>
+  
+  </div>
+
+  <div class="col-4">
+    <orders-order-summary></orders-order-summary>
+    <div class="checkout-button">
+      <p-button label="Xác Nhận Đặt Hàng" styleClass="full-width" (onClick)="placeOrder()"></p-button>
+    </div>
+  </div>
+</div>

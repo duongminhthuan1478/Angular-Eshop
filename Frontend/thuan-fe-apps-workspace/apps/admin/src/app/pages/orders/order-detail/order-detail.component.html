@@ -37,12 +37,12 @@
                 <div class="col-2 font-bold">Subtotal</div>
             </div>
             <div class="grid mb-2" *ngFor="let orderItem of order.orderItems">
-                <div class="col-4">{{orderItem.product.name}}</div>
-                <div class="col-2">{{orderItem.product.brand}}</div>
-                <div class="col-2">{{orderItem.product.category.name}}</div>
-                <div class="col-1">{{orderItem.product.price}}</div>
+                <div class="col-4">{{orderItem.product?.name}}</div>
+                <div class="col-2">{{orderItem.product?.brand}}</div>
+                <div class="col-2">{{orderItem.product?.category.name}}</div>
+                <div class="col-1">{{orderItem.product?.price}}</div>
                 <div class="col-1">{{orderItem.quantity}}</div>
-                <div class="col-2">{{orderItem.quantity * orderItem.product.price | currency: "VND"}}</div>
+                <div class="col-2">{{orderItem.quantity * orderItem.product?.price | currency: "VND"}}</div>
             </div>
             
             <div class="grid mt-3" style="color: red">

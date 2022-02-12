@@ -21,6 +21,15 @@ export class OrdersService {
     return this.http.get<any>(`${this.API_ORDERS}/getOrderById/${orderId}`);
   }
 
+  /**
+   * roductService(ProductsModule) using OrderService(OrdersModule), OrderService using ProductService 
+   * => circular dependency, angular doesn't implement => maximum call stack
+   * Temp solution to avoid thís
+   */
+  getProductById(productId: string): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}products/getProductById/${productId}`);
+  }
+
   async getOrderCount(): Promise<any> {
     const orderCount$ = this.http.get<any>(this.API_ORDERS + '/count');
     return await lastValueFrom(orderCount$);
