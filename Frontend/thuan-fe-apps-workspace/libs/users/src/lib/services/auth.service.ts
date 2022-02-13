@@ -26,4 +26,30 @@ export class AuthService {
   getToken() {
     return localStorage.getItem(environment.LS.TOKEN);
   }
+
+  isValidToken(): boolean {
+    const token = this.getToken();
+    if(token)  {
+      const tokenDecode = JSON.parse(atob(token.split('.')[1]));
+      return !this.isTokenExpired(tokenDecode.exp);
+    }
+    return false;
+  }
+
+  getUserIdFromToken() {
+    // userId được gửi từ section payload của token trả về, có thể check trong jwt.io 
+    const token = this.getToken();
+    if(token)  {
+      const tokenDecode = JSON.parse(atob(token.split('.')[1]));
+      return tokenDecode?.userId || null;
+    }
+    return null;
+  }
+
+  private isTokenExpired(expiration: number): boolean {
+    // timestamp/1000 => 13 -> 10digits equally to expiration timestamp
+    return Math.floor(new Date().getTime() / 1000) >= expiration;
+  }
+
+  
 }

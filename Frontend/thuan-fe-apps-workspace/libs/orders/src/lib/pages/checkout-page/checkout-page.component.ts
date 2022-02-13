@@ -2,7 +2,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { ORDER_STATUS } from '../../constants/order.constant';
 import { OrderItem } from '../../models/order-item.model';
 import { CartService } from '../../services/cart.service';
@@ -22,7 +22,7 @@ export class CheckoutPageComponent implements OnInit {
   orderItems: OrderItem[];
   form: FormGroup;
   isSubmit = false;
-  userId: string = '62078bbf9622b938b92026f1';
+  userId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +39,7 @@ export class CheckoutPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.autoFillUserData();
     this.getCartItems();
   }
 
@@ -99,5 +100,14 @@ export class CheckoutPageComponent implements OnInit {
         quantity: item.quantity
       }
     });
+  }
+
+  private autoFillUserData() {
+    this._users.observeCurrentUser().pipe(takeUntil(this.destroySubscription$)).subscribe(user => {
+      console.log('user.id', user?.id);
+      this.userId = user?.id;
+      this.form.patchValue(user);
+      console.log('autoFillUserData', user);
+    })
   }
 }

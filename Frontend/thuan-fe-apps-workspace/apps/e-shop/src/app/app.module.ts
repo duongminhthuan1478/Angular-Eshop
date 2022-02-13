@@ -1,5 +1,5 @@
 import { ToastModule } from 'primeng/toast';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -12,11 +12,14 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavComponent } from './shared/nav/nav.component';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 // Libs module
 import { UiModule } from '@thuan-fe-apps-workspace/ui'; /** using short imports declare at paths in tsconfig.base.json file */
 import { ProductsModule } from '@thuan-fe-apps-workspace/products';
 import { OrdersModule } from '@thuan-fe-apps-workspace/orders';
-
+import { JwtInterceptor } from '@thuan-fe-apps-workspace/users';
 
 import { AccordionModule } from 'primeng/accordion';
 
@@ -36,14 +39,16 @@ const route: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     ProductsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     UiModule,
     OrdersModule,
     HttpClientModule,
     RouterModule.forRoot(route),
     AccordionModule,
-    ToastModule
+    ToastModule,
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

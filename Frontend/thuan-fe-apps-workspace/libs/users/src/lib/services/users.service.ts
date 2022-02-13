@@ -1,3 +1,4 @@
+import { UsersFacade } from './../state/users.facade';
 import { User } from '@thuan-fe-apps-workspace/users';
 import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +15,10 @@ export class UsersService {
 
   private API_USERS = environment.API_URL + 'users';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private _userFacade: UsersFacade
+  ) {
     countriesLib.registerLocale(require("i18n-iso-countries/langs/en.json"));
   }
 
@@ -51,5 +55,17 @@ export class UsersService {
 
   getCountryName(countryCode: string) {
     return countriesLib.getName(countryCode, "en");
+  }
+
+  initAppSession() {
+    this._userFacade.buildUserSession();
+  }
+
+  observeCurrentUser() {
+    return this._userFacade.currentUser$;
+  }
+
+  isCurrentUserAuth() {
+    return this._userFacade.isAuthenticated$;
   }
 }
