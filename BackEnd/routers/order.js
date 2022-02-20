@@ -1,9 +1,10 @@
 const express = require('express');
-const { Order } = require('../models/order')
-const { OrderItem } = require('../models/order-item')
+const { Order } = require('../models/order');
+const { OrderItem } = require('../models/order-item');
+const { Product } = require('../models/product');
 const mongoose = require('mongoose');
 const router = express.Router();
-
+const stripe = require('stripe')('sk_test_51KVDkGGDprsjyIrqDUhzGiltPiu6mDOyHENzsI05HvF7xds8R90t8NMJl2amChJEE3IMg46Lo7PpgY7OFgpMAbUQ00k1XRDce9');
 
 router.get('/', async (req, res) => {
     //-1 desc. Check document sort method
@@ -115,6 +116,37 @@ router.post('/create', async (req, res) => {
     if(!order) return res.status(500).send({success: false, message: 'The order cannot be created!'});
     res.send({success: true, message: "Order was created successfully", data: order}); // send model
 });
+
+router.post('/create-checkout-session', async (req, res) => {
+    const orderItems = req.body;
+    if(!orderItems) return res.status(400).send({success: false, message: 'Checkout session cannot be created - check items again!'});
+
+    const lineItems = await Promise.all(
+        // Map data to same object at stripe: https://stripe.com/docs/payments/accept-a-payment
+        orderItems.map(async (item) => {
+            const product = await Product.findById(item.product);
+            return {
+                price_data: {
+                  currency: 'usd',
+                  product_data: {
+                    name: product.name,
+                  },
+                  unit_amount: Math.floor((product.price / 23000) *100), //1$ = 100cent
+                },
+                quantity: item.quantity,
+            }
+        })
+    );
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: 'payment',
+        success_url: 'http://localhost:4100/checkout-success',
+        cancel_url: 'http://localhost:4100/checkout-falied'
+    });
+    res.json({id: session.id})
+});
+
 
 router.put('/update-status/:id', async (req, res) => {
     const payload = {

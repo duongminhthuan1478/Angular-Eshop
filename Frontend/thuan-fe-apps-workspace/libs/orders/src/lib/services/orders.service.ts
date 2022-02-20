@@ -1,8 +1,10 @@
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@thuan-env/environment';
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order.model';
+import { OrderItem } from '../models/order-item.model';
+import { StripeService } from 'ngx-stripe';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class OrdersService {
 
   private API_ORDERS = environment.API_URL + 'orders';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,  private stripeService: StripeService) { }
 
   getOrders(): Observable<any> {
     return this.http.get<any>(this.API_ORDERS);
@@ -50,5 +52,14 @@ export class OrdersService {
 
   deleteOrder(orderId: string): Observable<any> {
     return this.http.delete(`${this.API_ORDERS}/delete/${orderId}`);
+  }
+
+  createCheckoutSession(orderItems: OrderItem[]) {
+    // data from api: {id: sessiontokenString}
+    return this.http.post(`${this.API_ORDERS}/create-checkout-session`, orderItems).pipe(
+      switchMap((session: any) => {
+        return this.stripeService.redirectToCheckout({sessionId: session.id});
+      })
+    );
   }
 }

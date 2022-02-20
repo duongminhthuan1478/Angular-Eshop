@@ -22,6 +22,7 @@ import { OrdersModule } from '@thuan-fe-apps-workspace/orders';
 import { JwtInterceptor } from '@thuan-fe-apps-workspace/users';
 
 import { AccordionModule } from 'primeng/accordion';
+import { NgxStripeModule } from 'ngx-stripe';
 
 const route: Routes = [
   { path: '', component: HomePageComponent },
@@ -45,6 +46,7 @@ const route: Routes = [
     OrdersModule,
     HttpClientModule,
     RouterModule.forRoot(route),
+    NgxStripeModule.forRoot('pk_test_51KVDkGGDprsjyIrqAyf2pzTpqsOzBWPW3AK8dsAhTYUv69P0NLdvVjNYl0o7Yx9jxYIbYKSiNaSHuJiS5VNR2BWb00sDzbqomx'),
     AccordionModule,
     ToastModule,
   ],

@@ -1,3 +1,4 @@
+import { NgxStripeModule } from 'ngx-stripe';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
@@ -87,6 +88,7 @@ const UX_MODULE = [
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    NgxStripeModule.forRoot('pk_test_51KVDkGGDprsjyIrqAyf2pzTpqsOzBWPW3AK8dsAhTYUv69P0NLdvVjNYl0o7Yx9jxYIbYKSiNaSHuJiS5VNR2BWb00sDzbqomx'),
     ...UX_MODULE,
   ],
   providers: [

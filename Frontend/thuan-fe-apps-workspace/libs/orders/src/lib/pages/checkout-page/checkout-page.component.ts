@@ -30,7 +30,7 @@ export class CheckoutPageComponent implements OnInit {
     private _cart: CartService,
     private _orders: OrdersService,
     private router: Router,
-    private _message: MessageService
+    private _message: MessageService,
   ) {
     this.getCountries();
   }
@@ -51,6 +51,7 @@ export class CheckoutPageComponent implements OnInit {
       return;
     }
     
+    // Thank you page will get order from cache and create order after payment
     const order: Order = {
       orderItems: this.orderItems,
       shippingAddress1: this.checkoutFormControl['street'].value,
@@ -63,16 +64,13 @@ export class CheckoutPageComponent implements OnInit {
       user: this.userId,
       dateOrdered: new Date().toString()
     }
+    localStorage.setItem('orderData', JSON.stringify(order));
 
-    this._orders.createOrder(order).subscribe(res => {
-      if(res.success) {
-        this._cart.clearCart();
-        this.router.navigate(['/checkout-success']);
-        this._message.add({severity:'info', summary:'Đặt hàng', detail: "Đơn hàng đã đặt thành công"});
+    this._orders.createCheckoutSession(this.orderItems).subscribe(error => {
+      if(error) {
+       console.log('createCheckoutSession-error', error);
       }
-    }, (err) => {
-      this._message.add({severity:'error', summary:'Có lỗi xảy ra, thử lại sau', detail: err.statusText});
-    });
+   })
   }
 
   private getCountries() {
@@ -104,10 +102,8 @@ export class CheckoutPageComponent implements OnInit {
 
   private autoFillUserData() {
     this._users.observeCurrentUser().pipe(takeUntil(this.destroySubscription$)).subscribe(user => {
-      console.log('user.id', user?.id);
       this.userId = user?.id;
       this.form.patchValue(user);
-      console.log('autoFillUserData', user);
     })
   }
 }

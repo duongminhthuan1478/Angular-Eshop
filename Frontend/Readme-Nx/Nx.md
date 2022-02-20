@@ -1,4 +1,12 @@
 ** First time using Nx? Check out this interactive Nx tutorial: https://nx.dev/angular-tutorial/01-create-application
+# runt lint: nx run [appname]:lint
+
+###### Update project to latest: using this instead of ng update because ngupdate cannot update others lib like ngrx,..
+- 1: nx migrate latest 
+- 2: npm i
+- 3: nx migrate --run-migrations
+- Refer: https://nx.dev/using-nx/updating-nx
+
 # Dry run prefix: run demo, without write to disk 
 --dry-run
 Example: npx nx g @nrwl/workspace:lib [name] --dry-run
