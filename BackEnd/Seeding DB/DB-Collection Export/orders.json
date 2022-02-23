@@ -1,0 +1,136 @@
+[{
+  "_id": {
+    "$oid": "62026edcb70a1bff6c95f818"
+  },
+  "orderItems": [
+    {
+      "$oid": "62026edcb70a1bff6c95f810"
+    },
+    {
+      "$oid": "62026edcb70a1bff6c95f811"
+    }
+  ],
+  "shippingAddress1": "Da Nang, Deo Biet",
+  "shippingAddress2": "13",
+  "city": "Da Nang",
+  "zip": "550000",
+  "country": "Viet Nam",
+  "phone": "09123456444",
+  "status": "Delivered",
+  "totalPrice": 2000,
+  "user": {
+    "$oid": "61eb9114f28938406bbd7ca4"
+  },
+  "dateOrdered": {
+    "$date": "2022-02-08T13:23:40.181Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6207c22d9622b938b9202861"
+  },
+  "orderItems": [
+    {
+      "$oid": "6207c22d9622b938b9202855"
+    },
+    {
+      "$oid": "6207c22d9622b938b9202856"
+    },
+    {
+      "$oid": "6207c22d9622b938b9202857"
+    }
+  ],
+  "shippingAddress1": "Khánh An 11, Đà Nẵng",
+  "shippingAddress2": "thuanduonguser apartment",
+  "city": "Da Nang",
+  "zip": "500000",
+  "country": "DZ",
+  "phone": "0164 428 785",
+  "status": "Processing",
+  "totalPrice": 53518000,
+  "user": {
+    "$oid": "62078bbf9622b938b92026f1"
+  },
+  "dateOrdered": {
+    "$date": "2022-02-12T14:20:29.643Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620900e006e9a24a7be0c689"
+  },
+  "orderItems": [
+    {
+      "$oid": "620900e006e9a24a7be0c681"
+    },
+    {
+      "$oid": "620900e006e9a24a7be0c682"
+    }
+  ],
+  "shippingAddress1": "thuanduongadmin street",
+  "shippingAddress2": "thuanduongadmin apartment",
+  "city": "Da Nang",
+  "zip": "550000",
+  "country": "AS",
+  "phone": "0947516545",
+  "status": "Pending",
+  "totalPrice": 23500,
+  "user": {
+    "$oid": "61e54313b459d8dcaf0a640d"
+  },
+  "dateOrdered": {
+    "$date": "2022-02-13T13:00:16.606Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62123d975a644122cce3972b"
+  },
+  "orderItems": [
+    {
+      "$oid": "62123d975a644122cce39723"
+    },
+    {
+      "$oid": "62123d975a644122cce39724"
+    }
+  ],
+  "shippingAddress1": "thuanduongadmin street",
+  "shippingAddress2": "thuanduongadmin apartment",
+  "city": "Da Nang",
+  "zip": "550000",
+  "country": "AS",
+  "phone": "0947516545",
+  "status": "Pending",
+  "totalPrice": 56990000,
+  "user": {
+    "$oid": "61e54313b459d8dcaf0a640d"
+  },
+  "dateOrdered": {
+    "$date": "2022-02-20T13:09:43.537Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6212458d4dff5b364d6008b5"
+  },
+  "orderItems": [
+    {
+      "$oid": "6212458d4dff5b364d6008b1"
+    }
+  ],
+  "shippingAddress1": "thuanduongadmin street",
+  "shippingAddress2": "thuanduongadmin apartment",
+  "city": "Da Nang",
+  "zip": "550000",
+  "country": "AS",
+  "phone": "0947516545",
+  "status": "Pending",
+  "totalPrice": 33000,
+  "user": {
+    "$oid": "61e54313b459d8dcaf0a640d"
+  },
+  "dateOrdered": {
+    "$date": "2022-02-20T13:43:41.648Z"
+  },
+  "__v": 0
+}]

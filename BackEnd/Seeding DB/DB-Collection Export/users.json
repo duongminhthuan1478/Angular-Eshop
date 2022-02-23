@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "61e54313b459d8dcaf0a640d"
+  },
+  "name": "thuanduongadmin",
+  "email": "thuanduongadmin@gmail.com",
+  "passwordHash": "$2a$10$E690XHBijKUKSMW1rynlTe5Ej1TIqyPlv8jHlolvuUkTjhdRPAIZq",
+  "phone": "0947516545",
+  "isAdmin": true,
+  "street": "thuanduongadmin street",
+  "apartment": "thuanduongadmin apartment",
+  "zip": "550000",
+  "city": "Da Nang",
+  "country": "AS",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61eb9114f28938406bbd7ca4"
+  },
+  "name": "thuanduonguser",
+  "email": "thuanduonguser@gmail.com",
+  "passwordHash": "$2a$10$SDa37Ca5p19lGJS9IzbKYOwXd5N7lAwBwiVql/p24vrrgu8DVed7C",
+  "phone": "0947516545",
+  "isAdmin": false,
+  "street": "thuanduonguser street",
+  "apartment": "thuanduonguser apartment",
+  "zip": "123214",
+  "city": "Lien Chieu",
+  "country": "VN",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62022b064106106e9b61b3c6"
+  },
+  "name": "thuantest",
+  "email": "thuanduonguser@gmail.com",
+  "passwordHash": "$2a$10$/fnV6t/GtjTC9YHMdAeSW.hht88M/PQoJG2qDeGPYw1hnSm.o9jli",
+  "phone": "1234 567 891",
+  "isAdmin": false,
+  "street": "",
+  "apartment": "",
+  "zip": "",
+  "city": "",
+  "country": "DZ",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62078bbf9622b938b92026f1"
+  },
+  "name": "user",
+  "email": "eshopuser@gmail.com",
+  "passwordHash": "$2a$10$aVJjN5OGx5lZxdN0u.gEVO2hj0pzFa5pao77M5LIgofU.3ogqlegy",
+  "phone": "0126 492 232",
+  "isAdmin": false,
+  "street": "Viet Nam",
+  "apartment": "",
+  "zip": "500000",
+  "city": "Da Nang",
+  "country": "VN",
+  "__v": 0
+}]

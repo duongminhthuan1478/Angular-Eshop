@@ -42,13 +42,15 @@ app.use(`${api}/orders`, ordersRouter);
  * Connection  from mongodb atlas cluster
  * Return: Promise to check connected or not
  */
-mongoose.connect(process.env.CONNECTION_STRING).then(res => {
+mongoose.connect(process.env.CONNECTION_STRING, {dbName: process.env.DB_NAME}).then(res => {
     console.warn("Connected to DB successfully !!!")
 }).catch((err) => {
     console.warn("Connected to DB failed  !!!", err)
 });
 
+const PORT = process.env.PORT || 3000;
+
 // Using listen to return a server port 3000 as first agrument we paseds
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log("Server is running http://localhost:3000/api/v1");
 })
