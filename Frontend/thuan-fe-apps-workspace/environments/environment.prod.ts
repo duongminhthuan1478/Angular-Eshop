@@ -1,5 +1,9 @@
   export const environment = {
     production: true,
-    API_URL: 'http://localhost:3000/api/v1/'
+    API_URL: 'https://td-be-eshop.herokuapp.com/api/v1/',
+    LS: {
+      TOKEN: 'token',
+      CART: 'cart'
+    }
   };
   
